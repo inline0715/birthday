@@ -1,1 +1,1655 @@
-<h1>hello world</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>تولدت مبارک 🎂</title>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0812;
+      --surface: rgba(255, 255, 255, 0.04);
+      --border: rgba(167, 139, 250, 0.15);
+      --text: #e9e4f5;
+      --text-soft: #b8a5d9;
+      --violet: #7c3aed;
+      --violet-light: #a78bfa;
+      --gold: #d4a373;
+      --font: 'Vazirmatn', Tahoma, sans-serif;
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --chat-fullscreen-bg: rgba(15, 10, 30, 0.98);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 85% 15%, rgba(167, 139, 250, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 30% 60%, rgba(212, 163, 115, 0.1) 0%, transparent 40%),
+        linear-gradient(135deg, #1a0f2e 0%, #0a0812 50%, #1a0f2e 100%);
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      background: rgba(124, 58, 237, 0.95);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-family: var(--font);
+      animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      to { transform: translateY(-100%); opacity: 0; }
+    }
+
+    /* اسپلش */
+    .splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      background: linear-gradient(135deg, #1a0f2e 0%, #0a0812 50%, #1a0f2e 100%);
+    }
+    .splash.hide { opacity: 0; }
+    
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: splashZoom 1.5s ease;
+    }
+    
+    .splash-icon {
+      font-size: 4rem;
+      animation: bounce 1s infinite;
+    }
+    
+    .splash h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      letter-spacing: 1px;
+      animation: fadeInSplash 1.2s ease;
+      background: linear-gradient(135deg, #fff 0%, #d4a373 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .splash-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      animation: fadeInSplash 1.5s ease;
+      text-align: center;
+      line-height: 2;
+    }
+    
+    .splash-hearts {
+      font-size: 2rem;
+      animation: fadeInSplash 2s ease;
+      letter-spacing: 10px;
+    }
+    
+    @keyframes fadeInSplash {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes splashZoom {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* بارش گل */
+    #flowerCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .main {
+      display: none;
+      width: 100%;
+      max-width: 520px;
+      padding: 24px 16px 40px;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .main.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .birthday-text {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    .birthday-text:hover {
+      border-color: rgba(167, 139, 250, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .birthday-text:active {
+      transform: scale(0.98);
+    }
+    .birthday-text p {
+      font-size: 0.9rem;
+      line-height: 2.2;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+    .birthday-text p:last-child { margin-bottom: 0; }
+    
+    /* انیمیشن تغییر متن */
+    .birthday-text.changing {
+      animation: textFadeOut 0.3s ease forwards;
+    }
+    .birthday-text.changed {
+      animation: textFadeIn 0.5s ease;
+    }
+    
+    @keyframes textFadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+    
+    @keyframes textFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* گرامافون */
+    .gramophone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 0;
+    }
+    .gramophone {
+      position: relative;
+      width: 210px;
+      height: 210px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    .gramophone-base {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 185px;
+      height: 32px;
+      background: #3d2b1f;
+      border-radius: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #d4b48c;
+      padding: 0 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .vinyl {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 175px;
+      height: 175px;
+      border-radius: 50%;
+      background: #1a1410;
+      box-shadow: 0 0 0 6px #2a1e14, 0 10px 30px rgba(0,0,0,0.6);
+      transition: transform 0.4s;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .vinyl::before {
+      content: '';
+      position: absolute;
+      inset: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2c1e12 30%, #181008 70%);
+      border: 2px solid #3d2b1f;
+    }
+    .vinyl-cover {
+      position: absolute;
+      inset: 60px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      background-color: #2a1e14;
+      border: 3px solid #4a2e1a;
+      box-shadow: 0 0 12px rgba(0,0,0,0.7);
+    }
+    .groove { position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.05); }
+    .groove.g1 { inset: 30px; }
+    .groove.g2 { inset: 45px; }
+    .groove.g3 { inset: 60px; }
+
+    .vinyl.playing {
+      animation: spin 2s linear infinite;
+      will-change: transform;
+    }
+    @keyframes spin {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    .arm {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 90px;
+      height: 12px;
+      background: #d1b894;
+      border-radius: 20px;
+      transform-origin: right center;
+      transform: rotate(-20deg);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+      transition: transform 0.5s;
+      z-index: 5;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .arm::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 5px;
+      width: 16px;
+      height: 16px;
+      background: #b59a7a;
+      border-radius: 50%;
+    }
+    .arm::after {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 0;
+      width: 8px;
+      height: 28px;
+      background: #8b6f4e;
+      border-radius: 4px;
+      transform: rotate(-30deg);
+      transform-origin: top center;
+    }
+    .headshell {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 18px;
+      height: 10px;
+      background: #2c1e12;
+      border-radius: 4px;
+      z-index: 6;
+    }
+    .needle {
+      position: absolute;
+      top: 4px;
+      left: 16px;
+      width: 12px;
+      height: 1.5px;
+      background: #f5e6d3;
+      transform: rotate(25deg);
+      transform-origin: left center;
+      z-index: 7;
+    }
+    .gramophone.playing .arm { transform: rotate(5deg); }
+
+    /* Progress Bar - اصلاح شده برای RTL */
+    .progress-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      margin-top: 8px;
+      position: relative;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--violet-light), var(--violet));
+      border-radius: 2px;
+      transition: width 0.1s linear;
+      position: absolute;
+      right: 0;
+    }
+
+    /* ===== چت باکس ===== */
+    .chat-box {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    /* حالت فول‌اسکرین */
+    .chat-box.chat-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      width: 100dvw;
+      height: 100vh;
+      height: 100dvh;
+      border-radius: 0 !important;
+      border: none;
+      background: var(--chat-fullscreen-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: none;
+      z-index: 9999;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      animation: fullscreenFade 0.3s ease-in-out;
+    }
+
+    @keyframes fullscreenFade {
+      from {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .chat-title {
+      padding: 16px 20px;
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      flex-shrink: 0;
+      min-height: 60px;
+    }
+
+    .chat-box.chat-fullscreen .chat-title {
+      padding: 20px 24px;
+      font-size: 1.1rem;
+      min-height: 70px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+    }
+
+    @supports (padding: max(0px)) {
+      .chat-box.chat-fullscreen .chat-title {
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+      }
+      
+      .chat-box.chat-fullscreen .chat-input-row {
+        padding-bottom: max(18px, env(safe-area-inset-bottom));
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+      }
+    }
+
+    .fullscreen-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-soft);
+      padding: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fullscreen-btn:hover {
+      color: var(--violet-light);
+      background: rgba(124, 58, 237, 0.1);
+      transform: scale(1.05);
+    }
+    .fullscreen-btn:active {
+      transform: scale(0.95);
+    }
+    .fullscreen-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      transition: all 0.3s ease;
+    }
+
+    .chat-box.chat-fullscreen .fullscreen-btn svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      min-height: 160px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--violet) transparent;
+      overscroll-behavior: contain;
+    }
+
+    .chat-box.chat-fullscreen .chat-messages {
+      flex: 1;
+      min-height: 0;
+      max-height: none;
+      padding: 20px 24px;
+      gap: 14px;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 10px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+
+    .msg {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.04);
+      align-self: flex-start;
+      border-bottom-right-radius: 6px;
+      border-bottom-left-radius: 16px;
+      word-wrap: break-word;
+      transition: all 0.3s ease;
+      animation: msgAppear 0.3s ease;
+    }
+
+    @keyframes msgAppear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-box.chat-fullscreen .msg {
+      max-width: 75%;
+      padding: 14px 18px;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .msg .time {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-start;
+      font-size: 0.65rem;
+      color: #9d8bb8;
+      margin-top: 4px;
+    }
+
+    .chat-box.chat-fullscreen .msg .time {
+      font-size: 0.75rem;
+    }
+
+    .msg .single-check { color: #34d399; font-weight: 700; }
+
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+      flex-shrink: 0;
+    }
+
+    .chat-box.chat-fullscreen .chat-input-row {
+      padding: 18px 24px;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-top: 1px solid rgba(167, 139, 250, 0.2);
+    }
+
+    .chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 12px 18px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.3s ease;
+      min-width: 0;
+    }
+
+    .chat-box.chat-fullscreen .chat-input {
+      padding: 14px 20px;
+      font-size: 1rem;
+      border-radius: 30px;
+    }
+
+    .chat-input:focus { 
+      border-color: var(--violet-light);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+
+    .send-btn {
+      background: var(--violet);
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .chat-box.chat-fullscreen .send-btn {
+      width: 52px;
+      height: 52px;
+    }
+
+    .send-btn:hover {
+      background: #6d28d9;
+      transform: scale(1.05);
+    }
+    .send-btn:active { 
+      transform: scale(0.92);
+    }
+    .send-btn svg { 
+      width: 22px; 
+      height: 22px; 
+      fill: none; 
+      stroke: white; 
+      stroke-width: 2;
+    }
+
+    .chat-box.chat-fullscreen .send-btn svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    /* پلی لیست */
+    .playlist-box {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .playlist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .playlist-title {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+    .upload-btn, .play-all-btn {
+      background: var(--violet);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      color: white;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .upload-btn:hover, .play-all-btn:hover { background: #6d28d9; }
+    .upload-btn:active, .play-all-btn:active { transform: scale(0.95); }
+    .upload-btn svg, .play-all-btn svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2; }
+
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 140px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--violet) transparent;
+      overscroll-behavior: contain;
+    }
+    .track-list::-webkit-scrollbar { width: 3px; }
+    .track-list::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 10px; }
+
+    .track-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      font-size: 0.8rem;
+    }
+    .track-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-soft);
+    }
+    .track-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .track-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      transition: 0.2s;
+    }
+    .track-btn.delete svg { stroke: #f87171; }
+    .track-btn:active { transform: scale(0.85); }
+    .empty-playlist {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #7a6a8e;
+      padding: 12px;
+    }
+
+    /* مدیا کوئری برای موبایل */
+    @media (max-width: 480px) {
+      .gramophone { 
+        width: 204px;
+        height: 204px;
+      }
+      .vinyl { 
+        width: 174px;
+        height: 174px;
+        bottom: 31px;
+      }
+      .vinyl-cover { 
+        inset: 62px;
+      }
+      .arm { 
+        width: 84px;
+        right: 14px;
+      }
+      .gramophone-base { 
+        width: 180px;
+        font-size: 0.7rem;
+      }
+      
+      .birthday-text p {
+        font-size: 0.72rem;
+      }
+      
+      .btn-group { width: 100%; justify-content: flex-end; }
+      .toast { font-size: 0.75rem; padding: 10px 20px; white-space: normal; }
+      .splash-icon { font-size: 3rem; }
+      .splash-hearts { font-size: 1.5rem; }
+
+      .chat-box.chat-fullscreen {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .chat-box.chat-fullscreen .chat-title {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+        min-height: 56px;
+      }
+      .chat-box.chat-fullscreen .chat-messages {
+        padding: 14px 16px;
+        gap: 10px;
+        flex: 1;
+        min-height: 0;
+      }
+      .chat-box.chat-fullscreen .msg {
+        max-width: 85%;
+        padding: 12px 14px;
+        font-size: 0.9rem;
+      }
+      .chat-box.chat-fullscreen .chat-input-row {
+        padding: 12px 16px;
+        gap: 8px;
+      }
+      .chat-box.chat-fullscreen .chat-input {
+        padding: 10px 16px;
+        font-size: 16px !important;
+      }
+      .chat-box.chat-fullscreen .send-btn {
+        width: 44px;
+        height: 44px;
+      }
+      .chat-box.chat-fullscreen .send-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      .chat-box.chat-fullscreen .fullscreen-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    /* مدیا کوئری برای دسکتاپ */
+    @media (min-width: 768px) {
+      body {
+        background-image: 
+          radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.35) 0%, transparent 50%),
+          radial-gradient(circle at 85% 15%, rgba(167, 139, 250, 0.3) 0%, transparent 40%),
+          radial-gradient(circle at 50% 80%, rgba(124, 58, 237, 0.25) 0%, transparent 50%),
+          radial-gradient(circle at 30% 60%, rgba(212, 163, 115, 0.15) 0%, transparent 40%),
+          linear-gradient(135deg, #2a1a4a 0%, #1a0f2e 30%, #2a1a4a 70%, #1a0f2e 100%);
+      }
+
+      .chat-box.chat-fullscreen {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .chat-box.chat-fullscreen .chat-title {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      
+      .chat-box.chat-fullscreen .chat-messages {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+        flex: 1;
+      }
+      
+      .chat-box.chat-fullscreen .chat-input-row {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="splash" id="splash">
+    <div class="splash-content">
+      <div class="splash-icon">🎂</div>
+      <h1>تولدت مبارک</h1>
+      <p class="splash-subtitle">امروز روز توئه،<br>زیباترین فرشته‌ی دنیا 💜</p>
+      <div class="splash-hearts">💜 🌙 ✨</div>
+    </div>
+  </div>
+
+  <canvas id="flowerCanvas"></canvas>
+
+  <main class="main" id="mainContent">
+    <div class="birthday-text" id="birthdayText">
+      <p>تولدت مبارک رفیق جونیم! 🎉</p>
+      <p>واقعاً نمی‌دونم بدون تو چیکار می‌کردم. تو همیشه هوامو داری و این خیلی برام ارزشمنده.</p>
+      <p>امیدوارم امسال بهترین اتفاقات زندگیت بیفته و همیشه شاد باشی 💕</p>
+    </div>
+
+    <div class="gramophone-wrap">
+      <div class="gramophone" id="gramophone" title="پخش/توقف آهنگ اصلی">
+        <div class="arm"><div class="headshell"></div><div class="needle"></div></div>
+        <div class="vinyl" id="vinyl">
+          <div class="groove g1"></div><div class="groove g2"></div><div class="groove g3"></div>
+          <div class="vinyl-cover" style="background-image: url('https://rozmusic.com/wp-content/uploads/2017/07/Emo-Band-Harja-Ke-Bashi.jpg');"></div>
+        </div>
+        <div class="gramophone-base">ایموبند - هر جا که باشی</div>
+      </div>
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <audio id="mainAudio" preload="none">
+        <source src="https://dls.musics-fa.com/tagdl/downloads/Emo%20Band%20-%20Harja%20Ke%20Bashi%20(320).mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <div class="chat-title">
+        <span>💬 بین خودمون میمونه 🙂</span>
+        <button class="fullscreen-btn" id="fullscreenBtn" title="تمام صفحه">
+          <svg viewBox="0 0 24 24">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="پیامت رو بنویس..." autocomplete="off">
+        <button class="send-btn" id="sendBtn" title="ارسال">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="playlist-box">
+      <div class="playlist-header">
+        <div class="playlist-title">📻 پلی‌لیست آفلاین</div>
+        <div class="btn-group">
+          <button class="play-all-btn" id="playAllBtn" title="پخش همه">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="white" stroke="none"/></svg>
+            پخش همه
+          </button>
+          <button class="upload-btn" id="uploadBtn" title="آپلود آهنگ">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5-5 5 5M12 5v14"/></svg>
+            آپلود
+          </button>
+        </div>
+        <input type="file" id="fileInput" accept="audio/*" multiple style="display:none;">
+      </div>
+      <div class="track-list" id="trackList"></div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ===== Toast Notifications =====
+      function showToast(message) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 3000);
+      }
+
+      // ===== IndexedDB Setup =====
+      const DB_NAME = 'MusicDB';
+      const DB_VERSION = 1;
+      let db = null;
+
+      function openDB() {
+        return new Promise((resolve, reject) => {
+          const dbRequest = indexedDB.open(DB_NAME, DB_VERSION);
+
+          dbRequest.onupgradeneeded = (event) => {
+            const database = event.target.result;
+            if (!database.objectStoreNames.contains('tracks')) {
+              database.createObjectStore('tracks', { keyPath: 'id', autoIncrement: true });
+            }
+          };
+
+          dbRequest.onsuccess = (event) => {
+            db = event.target.result;
+            resolve(db);
+          };
+
+          dbRequest.onerror = (event) => {
+            console.error('IndexedDB error:', event.target.error);
+            reject(event.target.error);
+          };
+        });
+      }
+
+      function saveTrackToDB(track) {
+        return new Promise((resolve, reject) => {
+          if (!db) {
+            reject('DB not ready');
+            return;
+          }
+          const transaction = db.transaction(['tracks'], 'readwrite');
+          const store = transaction.objectStore('tracks');
+          const request = store.add(track);
+
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      function getAllTracksFromDB() {
+        return new Promise((resolve, reject) => {
+          if (!db) {
+            resolve([]);
+            return;
+          }
+          const transaction = db.transaction(['tracks'], 'readonly');
+          const store = transaction.objectStore('tracks');
+          const request = store.getAll();
+
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      function deleteTrackFromDB(id) {
+        return new Promise((resolve, reject) => {
+          if (!db) {
+            reject('DB not ready');
+            return;
+          }
+          const transaction = db.transaction(['tracks'], 'readwrite');
+          const store = transaction.objectStore('tracks');
+          const request = store.delete(id);
+
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      // ===== بارش گل =====
+      const splash = document.getElementById('splash');
+      const main = document.getElementById('mainContent');
+      const flowerCanvas = document.getElementById('flowerCanvas');
+      const fctx = flowerCanvas.getContext('2d');
+      let fw, fh;
+      let flowers = [];
+      const FLOWER_EMOJIS = ['🌸', '🌺', '🌷', '🌹', '💐', '🌼', '🌻', '🪷', '🏵️', '🌺'];
+      let flowerRafId = null;
+      let flowerStartTime = null;
+      const FLOWER_DURATION = 2000;
+      const FLOWER_COUNT = 25;
+
+      function resizeFlower() {
+        fw = flowerCanvas.width = window.innerWidth;
+        fh = flowerCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeFlower);
+      resizeFlower();
+
+      class Flower {
+        constructor() {
+          this.init();
+        }
+        init() {
+          this.x = Math.random() * fw;
+          this.y = -20 - Math.random() * 60;
+          this.emoji = FLOWER_EMOJIS[Math.floor(Math.random() * FLOWER_EMOJIS.length)];
+          this.size = 20 + Math.random() * 18;
+          this.vy = (fh + 100) / (FLOWER_DURATION / 16.67);
+          this.vy *= (0.8 + Math.random() * 0.4);
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.rot = Math.random() * 360;
+          this.rotSpeed = (Math.random() - 0.5) * 0.03;
+          this.op = 0.75 + Math.random() * 0.2;
+        }
+        update() {
+          this.y += this.vy;
+          this.x += this.vx;
+          this.rot += this.rotSpeed;
+          if (this.y > fh + 20) {
+            this.init();
+            this.y = -20;
+          }
+        }
+        draw() {
+          fctx.save();
+          fctx.translate(this.x, this.y);
+          fctx.rotate(this.rot * Math.PI / 180);
+          fctx.globalAlpha = this.op;
+          fctx.font = `${this.size}px serif`;
+          fctx.textAlign = 'center';
+          fctx.textBaseline = 'middle';
+          fctx.fillText(this.emoji, 0, 0);
+          fctx.restore();
+        }
+      }
+
+      for (let i = 0; i < FLOWER_COUNT; i++) {
+        const flower = new Flower();
+        flower.y = Math.random() * fh;
+        flowers.push(flower);
+      }
+
+      function animateFlowers(timestamp) {
+        if (!flowerStartTime) flowerStartTime = timestamp;
+        const elapsed = timestamp - flowerStartTime;
+        
+        if (elapsed > FLOWER_DURATION) {
+          fctx.clearRect(0, 0, fw, fh);
+          flowers = [];
+          if (flowerRafId) {
+            cancelAnimationFrame(flowerRafId);
+            flowerRafId = null;
+          }
+          return;
+        }
+        
+        fctx.clearRect(0, 0, fw, fh);
+        flowers.forEach(f => { 
+          f.update(); 
+          f.draw(); 
+        });
+        flowerRafId = requestAnimationFrame(animateFlowers);
+      }
+
+      flowerRafId = requestAnimationFrame(animateFlowers);
+
+      setTimeout(() => {
+        splash.classList.add('hide');
+        main.classList.add('active');
+      }, FLOWER_DURATION);
+
+      setTimeout(() => {
+        if (flowerRafId) {
+          cancelAnimationFrame(flowerRafId);
+          flowerRafId = null;
+        }
+        fctx.clearRect(0, 0, fw, fh);
+        flowers = [];
+      }, FLOWER_DURATION + 100);
+
+      // ===== قابلیت کلیک ۷ باره روی متن تولد =====
+      const birthdayText = document.getElementById('birthdayText');
+      let clickCount = 0;
+      let isChanged = false;
+      
+      const newText = `
+        <p>می‌توان سال‌ها به کهکشان چشمانت زل زد و در ستاره‌های مهربانی، دلسوزی و اصالت غرق شد.</p>
+        <p>گویی تو امضای خداوند بر تمام جهانی. وجودت باران محبتی بود بر باغ دل من که از آن، گل‌های نوازش و آرامش رویید.</p>
+        <p>امیدوارم تا جانی در بدن دارم، صبح با یاد تو بیدار شوم و شب با رویای تو به خواب روم.</p>
+        <p>تولدت مبارک، تنها ستاره‌ی زمین ✨</p>
+      `;
+      
+      birthdayText.addEventListener('click', () => {
+        if (isChanged) return;
+        
+        clickCount++;
+        
+        if (clickCount === 7) {
+          birthdayText.classList.add('changing');
+          
+          setTimeout(() => {
+            birthdayText.innerHTML = newText;
+            birthdayText.classList.remove('changing');
+            birthdayText.classList.add('changed');
+            isChanged = true;
+            
+            setTimeout(() => {
+              birthdayText.classList.remove('changed');
+            }, 600);
+          }, 300);
+        } else if (clickCount === 5) {
+          showToast('🤫 ادامه بده...');
+        } else if (clickCount === 6) {
+          showToast('🎁 یک بار دیگه!');
+        }
+      });
+
+      // ===== مدیریت صدا =====
+      const mainAudio = document.getElementById('mainAudio');
+      const gramophone = document.getElementById('gramophone');
+      const vinyl = document.getElementById('vinyl');
+      const progressBar = document.getElementById('progressBar');
+      const progressContainer = document.getElementById('progressContainer');
+      let currentAudio = null;
+      let currentVinyl = null;
+      let mainPlaying = false;
+      let progressInterval = null;
+
+      function stopAllAudio() {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        if (currentVinyl) currentVinyl.classList.remove('playing');
+        currentAudio = null;
+        currentVinyl = null;
+        mainPlaying = false;
+        updateProgressBar();
+        if (progressInterval) {
+          clearInterval(progressInterval);
+          progressInterval = null;
+        }
+      }
+
+      function updateProgressBar() {
+        if (currentAudio && currentAudio.duration && !isNaN(currentAudio.duration)) {
+          const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+          progressBar.style.width = progress + '%';
+        } else {
+          progressBar.style.width = '0%';
+        }
+      }
+
+      function startProgressTracking() {
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(updateProgressBar, 100);
+      }
+
+      progressContainer.addEventListener('click', (e) => {
+        if (!currentAudio || !currentAudio.duration) return;
+        const rect = progressContainer.getBoundingClientRect();
+        const clickX = rect.right - e.clientX;
+        const percentage = Math.max(0, Math.min(1, clickX / rect.width));
+        currentAudio.currentTime = percentage * currentAudio.duration;
+        updateProgressBar();
+      });
+
+      gramophone.addEventListener('click', () => {
+        if (mainPlaying) {
+          mainAudio.pause();
+          vinyl.classList.remove('playing');
+          mainPlaying = false;
+          currentAudio = null;
+          currentVinyl = null;
+          if (progressInterval) clearInterval(progressInterval);
+          updateProgressBar();
+        } else {
+          stopAllAudio();
+          mainAudio.play().then(() => {
+            vinyl.classList.add('playing');
+            mainPlaying = true;
+            currentAudio = mainAudio;
+            currentVinyl = vinyl;
+            startProgressTracking();
+            updateProgressBar();
+          }).catch(() => {
+            console.warn('پخش آهنگ اصلی با خطا مواجه شد');
+            showToast('خطا در پخش آهنگ');
+          });
+        }
+      });
+
+      mainAudio.addEventListener('ended', () => {
+        vinyl.classList.remove('playing');
+        mainPlaying = false;
+        currentAudio = null;
+        if (progressInterval) clearInterval(progressInterval);
+        updateProgressBar();
+      });
+
+      mainAudio.addEventListener('error', () => {
+        vinyl.classList.remove('playing');
+        mainPlaying = false;
+        currentAudio = null;
+        if (progressInterval) clearInterval(progressInterval);
+        updateProgressBar();
+        showToast('خطا در بارگذاری آهنگ');
+      });
+
+      // ===== چت =====
+      const chatMessages = document.getElementById('chatMessages');
+      const chatInput = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const chatBox = document.getElementById('chatBox');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const CHAT_KEY = 'sahar_chat_v8';
+      let isFullscreen = false;
+
+      async function toggleFullscreen() {
+        if (!isFullscreen) {
+          try {
+            if (chatBox.requestFullscreen) {
+              await chatBox.requestFullscreen();
+            } else if (chatBox.webkitRequestFullscreen) {
+              await chatBox.webkitRequestFullscreen();
+            } else if (chatBox.msRequestFullscreen) {
+              await chatBox.msRequestFullscreen();
+            }
+            
+            chatBox.classList.add('chat-fullscreen');
+            isFullscreen = true;
+            updateFullscreenIcon(true);
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+              scrollChatToBottom();
+              chatInput.focus();
+            }, 300);
+            
+          } catch (err) {
+            console.error('Error entering fullscreen:', err);
+            showToast('خطا در ورود به تمام صفحه');
+          }
+        } else {
+          try {
+            if (document.exitFullscreen) {
+              await document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              await document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+              await document.msExitFullscreen();
+            }
+            
+            chatBox.classList.remove('chat-fullscreen');
+            isFullscreen = false;
+            updateFullscreenIcon(false);
+            document.body.style.overflow = '';
+            
+            setTimeout(() => {
+              scrollChatToBottom();
+            }, 300);
+            
+          } catch (err) {
+            console.error('Error exiting fullscreen:', err);
+            showToast('خطا در خروج از تمام صفحه');
+          }
+        }
+      }
+
+      function updateFullscreenIcon(isFull) {
+        if (isFull) {
+          fullscreenBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>`;
+          fullscreenBtn.title = 'خروج از تمام صفحه';
+        } else {
+          fullscreenBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+          fullscreenBtn.title = 'تمام صفحه';
+        }
+      }
+
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+      function handleFullscreenChange() {
+        const isFullscreenNow = document.fullscreenElement || 
+                                document.webkitFullscreenElement || 
+                                document.msFullscreenElement;
+        
+        if (!isFullscreenNow && isFullscreen) {
+          chatBox.classList.remove('chat-fullscreen');
+          isFullscreen = false;
+          updateFullscreenIcon(false);
+          document.body.style.overflow = '';
+          
+          setTimeout(() => {
+            scrollChatToBottom();
+          }, 300);
+        }
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFullscreen) {
+          setTimeout(() => {
+            if (!document.fullscreenElement) {
+              chatBox.classList.remove('chat-fullscreen');
+              isFullscreen = false;
+              updateFullscreenIcon(false);
+              document.body.style.overflow = '';
+            }
+          }, 100);
+        }
+      });
+
+      document.addEventListener('gesturestart', function(e) {
+        if (isFullscreen) {
+          e.preventDefault();
+        }
+      });
+
+      function scrollChatToBottom() {
+        if (chatMessages) {
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+      }
+
+      function addMsg(text, time) {
+        const div = document.createElement('div');
+        div.className = 'msg';
+        const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        div.innerHTML = `<span>${safeText}</span><div class="time"><span>${time || new Date().toLocaleTimeString('fa-IR', {hour:'2-digit', minute:'2-digit'})}</span><span class="single-check">✓</span></div>`;
+        chatMessages.appendChild(div);
+        scrollChatToBottom();
+        saveChat();
+      }
+
+      function saveChat() {
+        const msgs = [];
+        chatMessages.querySelectorAll('.msg').forEach(el => {
+          const textEl = el.querySelector('span');
+          const timeEl = el.querySelector('.time span');
+          if (textEl && timeEl) {
+            msgs.push({
+              text: textEl.textContent,
+              time: timeEl.textContent
+            });
+          }
+        });
+        try {
+          localStorage.setItem(CHAT_KEY, JSON.stringify(msgs));
+        } catch (e) {
+          console.warn('Error saving chat:', e);
+        }
+      }
+
+      function loadChat() {
+        try {
+          const data = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]');
+          if (Array.isArray(data)) {
+            data.forEach(m => {
+              if (m && m.text) {
+                addMsg(m.text, m.time);
+              }
+            });
+          }
+          // اطمینان از اسکرول به آخرین پیام
+          setTimeout(() => {
+            scrollChatToBottom();
+          }, 2000);
+        } catch(e) {
+          console.warn('Error loading chat:', e);
+        }
+      }
+      
+      // بارگذاری چت
+      loadChat();
+
+      sendBtn.addEventListener('click', () => {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addMsg(text);
+        chatInput.value = '';
+        chatInput.focus();
+        scrollChatToBottom();
+      });
+      
+      chatInput.addEventListener('keypress', e => { 
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendBtn.click();
+        }
+      });
+
+      // ===== پلی لیست =====
+      const uploadBtn = document.getElementById('uploadBtn');
+      const playAllBtn = document.getElementById('playAllBtn');
+      const fileInput = document.getElementById('fileInput');
+      const trackList = document.getElementById('trackList');
+      const tracks = [];
+
+      function resetAllPlayButtons() {
+        tracks.forEach((_, idx) => {
+          const btn = document.getElementById(`play-btn-${idx}`);
+          if (btn) {
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3" fill="white" stroke="none"/></svg>`;
+            btn.title = 'پخش';
+          }
+        });
+      }
+
+      function renderPlaylist() {
+        trackList.innerHTML = '';
+        if (!tracks.length) {
+          trackList.innerHTML = '<div class="empty-playlist">آهنگی آپلود نکردی 🎵</div>';
+          return;
+        }
+        tracks.forEach((t, i) => {
+          const item = document.createElement('div');
+          item.className = 'track-item';
+          const name = document.createElement('span');
+          name.className = 'track-name';
+          name.textContent = t.name;
+
+          const playStopBtn = document.createElement('button');
+          playStopBtn.className = 'track-btn';
+          playStopBtn.id = `play-btn-${i}`;
+          playStopBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3" fill="white" stroke="none"/></svg>`;
+          playStopBtn.title = 'پخش';
+          playStopBtn.addEventListener('click', () => {
+            if (currentAudio === t.audio && !t.audio.paused) {
+              t.audio.pause();
+              t.audio.currentTime = 0;
+              vinyl.classList.remove('playing');
+              currentAudio = null;
+              currentVinyl = null;
+              if (progressInterval) clearInterval(progressInterval);
+              resetAllPlayButtons();
+              updateProgressBar();
+            } else {
+              stopAllAudio();
+              if (!t.audio) t.audio = new Audio(t.url);
+              t.audio.play().then(() => {
+                vinyl.classList.add('playing');
+                currentAudio = t.audio;
+                currentVinyl = vinyl;
+                startProgressTracking();
+                resetAllPlayButtons();
+                playStopBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2" fill="white" stroke="none"/></svg>`;
+                playStopBtn.title = 'توقف';
+                t.audio.onended = () => {
+                  vinyl.classList.remove('playing');
+                  currentAudio = null;
+                  if (progressInterval) clearInterval(progressInterval);
+                  resetAllPlayButtons();
+                  const next = (i + 1) % tracks.length;
+                  if (next !== i) playTrackByIndex(next);
+                };
+              }).catch(() => {
+                showToast('خطا در پخش آهنگ');
+              });
+            }
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.className = 'track-btn delete';
+          delBtn.id = `delete-btn-${i}`;
+          delBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6h14z"/></svg>`;
+          delBtn.title = 'حذف';
+          delBtn.addEventListener('click', () => {
+            if (t.audio) {
+              t.audio.pause();
+              t.audio.currentTime = 0;
+            }
+            if (t.id) {
+              deleteTrackFromDB(t.id).catch(err => console.error('Error deleting track:', err));
+            }
+            tracks.splice(i, 1);
+            renderPlaylist();
+          });
+
+          item.appendChild(name);
+          item.appendChild(playStopBtn);
+          item.appendChild(delBtn);
+          trackList.appendChild(item);
+        });
+      }
+
+      function playTrackByIndex(index) {
+        if (!tracks[index]) return;
+        stopAllAudio();
+        const t = tracks[index];
+        if (!t.audio) t.audio = new Audio(t.url);
+        t.audio.play().then(() => {
+          vinyl.classList.add('playing');
+          currentAudio = t.audio;
+          currentVinyl = vinyl;
+          startProgressTracking();
+          resetAllPlayButtons();
+          const btn = document.getElementById(`play-btn-${index}`);
+          if (btn) {
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2" fill="white" stroke="none"/></svg>`;
+            btn.title = 'توقف';
+          }
+          t.audio.onended = () => {
+            vinyl.classList.remove('playing');
+            currentAudio = null;
+            if (progressInterval) clearInterval(progressInterval);
+            resetAllPlayButtons();
+            const next = (index + 1) % tracks.length;
+            if (next !== index) playTrackByIndex(next);
+          };
+        }).catch(() => {
+          showToast('خطا در پخش آهنگ');
+        });
+      }
+
+      async function loadPlaylistFromDB() {
+        try {
+          const savedTracks = await getAllTracksFromDB();
+          savedTracks.forEach(t => {
+            if (t && t.name && t.blob) {
+              tracks.push({
+                id: t.id,
+                name: t.name,
+                url: URL.createObjectURL(t.blob)
+              });
+            }
+          });
+          renderPlaylist();
+        } catch (e) {
+          console.error('Error loading playlist:', e);
+        }
+      }
+
+      uploadBtn.addEventListener('click', () => fileInput.click());
+      
+      playAllBtn.addEventListener('click', () => {
+        if (tracks.length) playTrackByIndex(0);
+      });
+
+      fileInput.addEventListener('change', async (e) => {
+        const files = Array.from(e.target.files || []);
+        let addedCount = 0;
+        
+        for (const file of files) {
+          if (file.type.startsWith('audio/')) {
+            const trackData = {
+              name: file.name,
+              blob: file
+            };
+            try {
+              const id = await saveTrackToDB(trackData);
+              tracks.push({
+                id: id,
+                name: file.name,
+                url: URL.createObjectURL(file)
+              });
+              addedCount++;
+            } catch (err) {
+              console.error('Error saving track:', err);
+              showToast('خطا در ذخیره آهنگ');
+            }
+          }
+        }
+        
+        renderPlaylist();
+        fileInput.value = '';
+        if (addedCount > 0) {
+          showToast(`${addedCount} آهنگ اضافه شد`);
+        }
+      });
+
+      // راه‌اندازی اولیه
+      async function init() {
+        try {
+          await openDB();
+          await loadPlaylistFromDB();
+        } catch (err) {
+          console.error('Error initializing:', err);
+          showToast('خطا در راه‌اندازی برنامه');
+        }
+      }
+      
+      init();
+    })();
+  </script>
+</body>
+  </html>
